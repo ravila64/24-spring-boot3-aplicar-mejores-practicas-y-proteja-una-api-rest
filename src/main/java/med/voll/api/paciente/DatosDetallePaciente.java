@@ -6,14 +6,14 @@ public record DatosDetallePaciente(
       String nombre,
       String email,
       String telefono,
-      String documento_identidad,
+      String documento,
       Direccion direccion) {
 
     public DatosDetallePaciente(Paciente paciente) {
         this(paciente.getNombre(),
               paciente.getEmail(),
               paciente.getTelefono(),
-              paciente.getDocumento_identidad(),
+              paciente.getDocumento(),
               paciente.getDireccion());
     }
 }

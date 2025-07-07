@@ -19,7 +19,7 @@ public class Paciente {
     private Boolean activo;
     private String nombre;
     private String email;
-    private String documento_identidad;
+    private String documento;
     private String telefono;
 
     @Embedded
@@ -30,7 +30,7 @@ public class Paciente {
         this.nombre = datos.nombre();
         this.email = datos.email();
         this.telefono = datos.telefono();
-        this.documento_identidad = datos.documento_identidad();
+        this.documento= datos.documento();
         this.direccion = new Direccion(datos.direccion());
     }
 
