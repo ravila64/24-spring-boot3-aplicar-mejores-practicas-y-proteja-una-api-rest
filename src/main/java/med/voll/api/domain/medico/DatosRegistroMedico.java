@@ -8,10 +8,14 @@ import jakarta.validation.constraints.Pattern;
 import med.voll.api.domain.direccion.DatosDireccion;
 
 public record DatosRegistroMedico(
-        @NotBlank String nombre,
-        @NotBlank @Email String email,
-        @NotBlank String telefono,
-        @NotBlank @Pattern(regexp = "\\d{7,9}") String documento,
-        @NotNull Especialidad especialidad,
-        @NotNull @Valid DatosDireccion direccion) {
+        // mensaje = se coloca la variable que esta en validation.messages.properties
+        @NotBlank(message="{nombre.obligatorio}")
+        String nombre,
+        @NotBlank(message="{email.obligatorio}")
+        @Email(message = "{email.invalido}")
+        String email,
+        @NotBlank(message="{telefono.obligatorio}") String telefono,
+        @NotBlank(message="{documento.invalido}") @Pattern(regexp = "\\d{7,9}") String documento,
+        @NotNull(message="{especialidad.obligatorio}") Especialidad especialidad,
+        @NotNull(message="{direccion.obligatorio}") @Valid DatosDireccion direccion) {
 }
