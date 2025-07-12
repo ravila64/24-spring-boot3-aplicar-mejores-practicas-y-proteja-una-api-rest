@@ -1,0 +1,19 @@
+@Bean
+   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+      return http.csrf(csrf -> csrf.disable())
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(req -> {
+               req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+               req.anyRequest().authenticated();
+            }) // urls disponibles
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+      // esta opcion seria para:  supongamos que en nuestra aplicación tenemos un perfil de acceso llamado ADMIN,
+      // y solo los usuarios con ese perfil pueden eliminar médicos y pacientes.
+      //      .authorizeHttpRequests(req -> {
+      //            req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+      //            req.requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN");
+      //            req.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN");
+      //            req.anyRequest().authenticated();
+      //         })
+   }

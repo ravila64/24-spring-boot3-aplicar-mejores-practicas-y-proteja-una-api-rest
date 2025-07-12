@@ -5,10 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import med.voll.api.domain.usuario.Usuario;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
+//import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
+//import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -28,12 +28,12 @@ public class TokenService {
          System.out.println("algoritmo "+algoritmo);
          var token = JWT.create()  // se quito la asignacion al token y se dejo return
                .withIssuer("API Voll.med")  // auth0, empresa firma el token
-               .withSubject(usuario.getLogin())
-               .withExpiresAt(fechaExpiracion())
+               .withSubject(usuario.getLogin()) // trae el user or email, segun solicitud
+               .withExpiresAt(fechaExpiracion())  // fecha u hora que expira el token, tiene que logearse otra vez
                //.withClaim("id", usuario.getId()) // usuarios llave valor
                // se pueden colocar varios
                .sign(algoritmo);
-         System.out.println("token en GenerarToken "+token);
+         System.out.println("token en generarToken "+token);
          return token;
       } catch (JWTCreationException exception) {
          throw new RuntimeException("error al generar el token JWT", exception);
@@ -42,7 +42,7 @@ public class TokenService {
 
    // example:expira 2 horas despues desde que se reciba el token
    private Instant fechaExpiracion() {
-      return LocalDateTime.now().plusHours(72).toInstant(ZoneOffset.of("-05:00"));  // utc:-05:00 colombia, bog, lima, quito
+      return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));  // utc:-05:00 colombia, bog, lima, quito
    }
 
    // validar el token enviado en el subject
